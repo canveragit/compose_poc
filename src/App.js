@@ -5,6 +5,8 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import AddPhotoAlternateOutlinedIcon from '@mui/icons-material/AddPhotoAlternateOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 class ImageFrame extends React.Component {
 
@@ -16,11 +18,13 @@ class ImageFrame extends React.Component {
   render() {
     return (
       <Row className="justify-content-md-center">
-        <Col md={6} sm={12}>
+        <Col md={12} sm={12}>
           <div className='image-tools'>
             <p>{this.props.index + 1}</p>
             <AddPhotoAlternateOutlinedIcon className='icon' onClick={this.props.handleAdd} > </AddPhotoAlternateOutlinedIcon>
             <DeleteOutlineOutlinedIcon className='icon' onClick={() => this.props.handleRemove(this.props.index)}></DeleteOutlineOutlinedIcon>
+            <KeyboardArrowUpIcon className='icon'></KeyboardArrowUpIcon>
+            <KeyboardArrowDownIcon className='icon'></KeyboardArrowDownIcon>
           </div>
           <div className="image-container">
             <div className='image-preview' style={{ backgroundImage: "url(" + this.state.file + ")" }}></div>
