@@ -1,119 +1,4 @@
-
-## Method 1
-
-# from django.shortcuts import render
-# from django.views.decorators.csrf import csrf_exempt
-# from rest_framework.parsers import JSONParser
-# from django.http.response import JsonResponse
-
-# from rest_framework.response import Response
-# from rest_framework import status
-# from rest_framework.decorators import api_view
-
-# from Photobook.models import Photobook
-# from Photobook.serializers import PhotobookSerializers
-
-# @api_view(['POST'])
-# def add_PhotobookAPI(request):
-#     Photobook_data=JSONParser().parse(request)  
-#     Photobook_Serializer=PhotobookSerializers(data=Photobook_data)
-#     if Photobook_Serializer.is_valid():
-#         print(Photobook_Serializer)
-#         Photobook_Serializer.save
-#         return Response({"status": "success", "data": Photobook_Serializer.data}, status=status.HTTP_200_OK)
-#     # return JsonResponse("Failed to Insert", safe=False, status=400)
-#     else:
-#         error_details = []
-#         for key in Photobook_Serializer.errors.keys():
-#             error_details.append({"field": key, "message": Photobook_Serializer.errors[key][0]})
-
-#         data = {
-#                 "Error": {
-#                     "status": 400,
-#                     "message": "Your submitted data was not valid - please correct the below errors",
-#                     "error_details": error_details
-#                     }
-#                 }
-
-#         return Response(data, status=status.HTTP_400_BAD_REQUEST)
-    
-# @api_view(['GET', 'POST'])
-# def update_photobook(request, co_id):
-#     # photobook_obj = Photobook.objects.get(co_id=co_id)
-
-#     if request.method == "GET":
-        
-#         Photo_books = Photobook.objects.all()
-#         Photobook_Serializer = PhotobookSerializers(Photo_books,many=True)
-#         return JsonResponse(Photobook_Serializer.data,safe=False)
-    
-#         # photobook_data = PhotobookSerializers(photobook_obj, many=True).data
-#         # return Response({"data": photobook_data}, status=status.HTTP_200_OK)
-#     elif request.method == "DELETE":
-#         photobook_obj = Photobook.objects.get(co_id=co_id)
-#         photobook_obj.delete()
-#         return Response({"data": "Photobook Deleted Successfully."}, status=status.HTTP_200_OK)
-#     else:
-#         photobook_obj = Photobook.objects.get(co_id=co_id)
-#         photobook_serializer = PhotobookSerializers(photobook_obj, data=request.data)
-#         if photobook_serializer.is_valid():
-#             photobook_serializer.save()
-#             return Response({"data": "Photobook Updated successfully"}, status=status.HTTP_200_OK)
-#         else:
-#             error_details = []
-#             for key in photobook_serializer.errors.keys():
-#                 error_details.append({"field": key, "message": photobook_serializer.errors[key][0]})
-#             data = {
-#                     "Error": {
-#                         "status": 400,
-#                         "message": "Your submitted data was not valid - please correct the below errors",
-#                         "error_details": error_details
-#                         }
-#                     }
-
-#             return Response(data, status=status.HTTP_400_BAD_REQUEST)
-
-## Method 2
-
-# from django.shortcuts import render
-# from django.views.decorators.csrf import csrf_exempt
-# from rest_framework.parsers import JSONParser
-# from django.http.response import JsonResponse
-
-# from rest_framework.response import Response
-# from rest_framework import status
-
-# from Photobook.models import Photobook
-# from Photobook.serializers import PhotobookSerializers
-
-# @csrf_exempt
-# def PhotobookAPI(request,co_id=0):
-#     if request.method == 'GET':
-#         Photo_books = Photobook.objects.all()
-#         Photobook_Serializer = PhotobookSerializers(Photo_books,many=True)
-#         return JsonResponse(Photobook_Serializer.data,safe=False)
-#     elif request.method=='POST':
-#         Photobook_data=JSONParser().parse(request)  
-#         Photobook_Serializer=PhotobookSerializers(data=Photobook_data)
-#         if Photobook_Serializer.is_valid():
-#             Photobook_Serializer.save
-#             return Response({"status": "success", "data": Photobook_Serializer.data}, status=status.HTTP_200_OK)
-#         return JsonResponse("Failed to Insert", safe=False, status=400)
-#     elif request.method=='PUT':
-#         Photobook_data=JSONParser().parse(request)
-#         Photobooks = Photobook.objects.get(co_id=co_id)
-#         Photobook_Serializer=PhotobookSerializers(Photobooks,data=Photobook_data)
-#         if Photobook_Serializer.is_valid():
-#             Photobook_Serializer.save()
-#             return JsonResponse("Update Successfully",safe=True)
-#         return JsonResponse("Failed to Update")
-#     elif request.method=='DELETE':
-#         Photobooks=Photobook.objects.get(co_id=co_id)
-#         Photobooks.delete()
-#         return JsonResponse("Delete Successfully",safe=False)
-
-# Method 3 
-
+import os
 from django.shortcuts import render
 
 from django.http.response import JsonResponse
@@ -124,6 +9,16 @@ from Photobook.models import Photobook
 from Photobook.serializers import PhotobookSerializers
 from rest_framework.decorators import api_view
 
+
+@api_view(['POST'])
+def JSON_respone(request):
+    if request.method == 'POST':
+        photobook_data = JSONParser().parse(request)
+        photobook_serializer = PhotobookSerializers(data=photobook_data)
+        print(photobook_data,photobook_serializer,request)
+    return JsonResponse(photobook_serializer.data, status=status.HTTP_201_CREATED) 
+    
+    
 
 @api_view(['GET', 'POST', 'DELETE'])
 def Photobook_list(request):
@@ -154,11 +49,11 @@ def Photobook_list(request):
  
  
 @api_view(['GET', 'PUT', 'DELETE'])
-def Photobook_detail(request, co_id):
-    # find photobook by co_id (co_id)
+def Photobook_detail(request, order_number):
+    # find photobook by order_number (order_number)
     
     try: 
-        photobook = Photobook.objects.get(co_id=co_id) 
+        photobook = Photobook.objects.get(order_number=order_number) 
     except Photobook.DoesNotExist: 
         return JsonResponse({'message': 'The photobook does not exist'}, status=status.HTTP_404_NOT_FOUND) 
     
@@ -171,6 +66,7 @@ def Photobook_detail(request, co_id):
         photobook_serializer = PhotobookSerializers(photobook, data=photobook_data) 
         if photobook_serializer.is_valid(): 
             photobook_serializer.save() 
+            order_folder(order_number)
             return JsonResponse(photobook_serializer.data) 
         return JsonResponse(photobook_serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
     
@@ -189,3 +85,26 @@ def Photobook_list_published(request,version):
     if request.method == 'GET': 
         Photobook_Serializers = PhotobookSerializers(photobooks, many=True)
         return JsonResponse(Photobook_Serializers.data, safe=False)
+    
+def order_folder(order_id):
+    current_path = os.getcwd()
+    # print(current_path)
+    list_folders = os.listdir()
+    # print(list_folders)
+    i = 0
+    if i == 1: 
+        if order_id in list_folders:
+            pass
+        else:
+            os.mkdir(order_id)
+        os.chdir(order_id)
+        order_id_folders = os.listdir()
+        if 'photobook_files' in order_id_folders:
+            pass
+        else:
+            os.mkdir('photobook_files')
+        os.chdir('photobook_files')
+        
+        # IMAGES PASTED IN THIS FOLDER 
+        
+        # os.chdir("\\")

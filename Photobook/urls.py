@@ -5,6 +5,7 @@ from Photobook import views
 
 urlpatterns = [
     re_path(r'^Photobook/$', views.Photobook_list),
+    re_path(r'^Photobook/viewjson$', views.JSON_respone),
     re_path(r'^Photobook/(?P<co_id>[0-9]+)$',views.Photobook_detail),
     re_path(r'^Photobook/complete$',views.Photobook_list_published),
 ]
