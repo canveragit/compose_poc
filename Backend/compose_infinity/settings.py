@@ -10,7 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
-import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -28,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+APPEND_SLASH = False
 
 # Application definition
 
@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     
 ]
 
-CORS_ORIGIN_ALLOW = True #To access any of the headers directly 
+# CORS_ORIGIN_ALLOW = True      #To access any of the headers directly 
+CORS_ORIGIN_ALLOW_ALL = True  # to enable all API requests from diffrnt server
 
 # CORS_ORIGIN_ALLOW_ALL = False
 # CORS_ORIGIN_WHITELIST = (
@@ -64,15 +65,12 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# to enable all API requests from diffrnt server
-CORS_ORIGIN_ALLOW_ALL = True
-
 ROOT_URLCONF = 'compose_infinity.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR/"templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -91,6 +89,13 @@ WSGI_APPLICATION = 'compose_infinity.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+
 # # Local Database
 # DATABASES = {
 #     'default': {
@@ -103,17 +108,17 @@ WSGI_APPLICATION = 'compose_infinity.wsgi.application'
 #     }
 # }
 
-# Server Database on 10.30.0.21
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': '10.30.0.21',
-        'PORT': '5432'
-    }
-}
+# # Server Database on 10.30.0.21
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'postgres',
+#         'USER': 'postgres',
+#         'PASSWORD': 'postgres',
+#         'HOST': '10.30.0.21',
+#         'PORT': '5432'
+#     }
+# }
 
 
 # Password validation
@@ -152,14 +157,36 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+STATICFILES_DIRS = [
+    BASE_DIR / "compose_infinity"
+]
+
 # # Default primary key field type
 # # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
-# DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # because in this we need to store media files
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = BASE_DIR/"media"
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-STATICFILES_DIRS=(os.path.join(BASE_DIR,'media'),)
+
+# STATICFILES_DIRS=(os.path.join(BASE_DIR,'media'),)
+
+# WARNINGS:
+# ?: (security.W004) You have not set a value for the SECURE_HSTS_SECONDS setting. If your entire site is served only over SSL, 
+# you may want to consider setting a value and enabling HTTP Strict Transport Security. Be sure to read the documentation first;
+# enabling HSTS carelessly can cause serious, irreversible problems.
+# ?: (security.W008) Your SECURE_SSL_REDIRECT setting is not set to True. Unless your site should be available over both SSL and non-SSL 
+# connections, you may want to either set this setting True or configure a load balancer or reverse-proxy server to redirect all connections 
+# to HTTPS.
+# ?: (security.W009) Your SECRET_KEY has less than 50 characters, less than 5 unique characters, or it's prefixed with 'django-insecure-' 
+# indicating that it was generated automatically by Django. Please generate a long and random value, otherwise many of Django's 
+# security-critical features will be vulnerable to attack.
+# ?: (security.W012) SESSION_COOKIE_SECURE is not set to True. Using a secure-only session cookie makes it more difficult for network 
+# traffic sniffers to hijack user sessions.
+# ?: (security.W016) You have 'django.middleware.csrf.CsrfViewMiddleware' in your MIDDLEWARE, but you have not set CSRF_COOKIE_SECURE to True. 
+#   Using a secure-only CSRF cookie makes it more difficult for network traffic sniffers to steal the CSRF token.
+# ?: (security.W018) You should not have DEBUG set to True in deployment.
