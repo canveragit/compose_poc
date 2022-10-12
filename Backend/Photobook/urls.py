@@ -24,3 +24,6 @@ urlpatterns = [
 # (DELETE) photobook                        - To remove all the orders
 # (GET)    photobook/<version>              - To filter all the orders version vise 
 # (GET)    photobook?order_number=[IC-1234] - To filter order_number from Photobook
+
+# (POST)   				    - index.html
+# (POST)   upload			    - To upload images to ImageAlbum table in DB with the orderID and FileName

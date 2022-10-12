@@ -23,7 +23,7 @@ def OrderUpload(request):
         for f in myfile:
             models.ImageAlbum(file_name = order_no,images=f).save()
   
-        return HttpResponse("Successfully Uploaded - Trust in Mervin... Please I really hope this works Suganya :) ")
+        return HttpResponse("Successfully Uploaded - Trust in Mervin... Please I really hope this works HaHA:) ")
 
 # (GET)    photobook                        - to get all the photobooks
 # (GET)    photobook/<co_id>                - to get a specific order
@@ -92,13 +92,13 @@ def Photobook_detail(request, co_id):
         return JsonResponse({'message': 'Photobook was deleted successfully!'}, status=status.HTTP_204_NO_CONTENT)
 
     
-# # Filter to find something specific like order status,version etc    
-# @api_view(['GET'])
-# def Photobook_list_published(request,version):
-#     photobooks = Photobook.objects.filter(version=version)
+# Filter to find something specific like order status,version etc    
+@api_view(['GET'])
+def Photobook_version(request,version):
     
-#     # GET all photobooks 
-#     if request.method == 'GET': 
-#         Photobook_Serializers = PhotobookSerializers(photobooks, many=True)
-#         return JsonResponse(Photobook_Serializers.data, safe=False)
+    photobooks = Photobook.objects.filter(version=version)
+    # GET all photobooks 
+    if request.method == 'GET': 
+        Photobook_Serializers = PhotobookSerializers(photobooks, many=True)
+        return JsonResponse(Photobook_Serializers.data, safe=False)
         
