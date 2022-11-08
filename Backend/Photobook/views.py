@@ -1,8 +1,19 @@
+<<<<<<< Updated upstream
+=======
+from multiprocessing import managers
+import os
+from django.shortcuts import render
+
+>>>>>>> Stashed changes
 from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser 
 from rest_framework import status
+<<<<<<< Updated upstream
 from Photobook.models import ImageAlbum
 from Photobook.serializers import ImageAlbumSerializer
+=======
+
+>>>>>>> Stashed changes
 from Photobook.models import Photobook
 from Photobook.serializers import PhotobookSerializers
 from rest_framework.decorators import api_view
@@ -23,11 +34,13 @@ def OrderUpload(request):
         myfile = request.FILES.getlist("uploadfiles")
         
         for f in myfile:
+<<<<<<< HEAD
             # models.ImageAlbum(file_name = order_no,images=f).save()
             a = models.ImageAlbum(file_name = order_no,images=f)
             
         return HttpResponse("Successfully Uploaded ")
 
+<<<<<<< Updated upstream
 @csrf_exempt    
 def ImageView(request,file_name):
 
@@ -50,6 +63,11 @@ def ImageView(request,file_name):
     # if request.method == 'GET': 
     #     ImageAlbum_Serializer = ImageAlbumSerializer(images) 
     #     return JsonResponse(ImageAlbum_Serializer.data, safe=False) 
+=======
+            models.ImageAlbum(file_name = order_no,images=f).save()
+  
+        return HttpResponse("Successfully Uploaded - Trust in Mervin... Please I really hope this works Suganya :) ")
+>>>>>>> parent of 89c52e3 (Model Updated)
 
 # (GET)    photobook                        - to get all the photobooks
 # (GET)    photobook/<co_id>                - to get a specific order
@@ -60,6 +78,8 @@ def ImageView(request,file_name):
 # (GET)    photobook/<version>              - To filter all the orders version vise 
 # (GET)    photobook?order_number=[IC-1234] - To filter order_number from Photobook
 
+=======
+>>>>>>> Stashed changes
 @api_view(['GET', 'POST', 'DELETE'])
 def Photobook_list(request):
     
@@ -67,13 +87,25 @@ def Photobook_list(request):
     if request.method == 'GET':
         photobooks = Photobook.objects.all()
         
+<<<<<<< Updated upstream
         order_number = request.GET.get('order_number', None)
+=======
+        order_number = request.GET.get('order_number')
+        co_id = request.GET.get('co_id')
+        
+
+>>>>>>> Stashed changes
         if order_number is not None:
             photobooks = photobooks.filter(order_number_contains=order_number)
         
         Photobook_Serializers = PhotobookSerializers(photobooks, many=True)
+<<<<<<< Updated upstream
         return JsonResponse(Photobook_Serializers.data, safe=False, 
         status=status.HTTP_201_CREATED)
+=======
+        
+        return JsonResponse(Photobook_Serializers.data, safe=False)
+>>>>>>> Stashed changes
         # 'safe=False' for objects serialization
     
     # Inserting a new record   
@@ -82,17 +114,24 @@ def Photobook_list(request):
         photobook_serializer = PhotobookSerializers(data=photobook_data)
         if photobook_serializer.is_valid():
             photobook_serializer.save()
+<<<<<<< Updated upstream
             
             return JsonResponse(photobook_serializer.data, status=status.HTTP_201_CREATED) 
         return JsonResponse(photobook_serializer.errors, status=status.HTTP_400_BAD_REQUEST,safe=False)
     
     # Delete all records
+=======
+            return JsonResponse(photobook_serializer.data, status=status.HTTP_201_CREATED)
+        return JsonResponse(photobook_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+>>>>>>> Stashed changes
     elif request.method == 'DELETE':
         count = Photobook.objects.all().delete()
         return JsonResponse({'message': '{} Photobook were deleted successfully!'.format(count[0])}, status=status.HTTP_204_NO_CONTENT)
  
  
 @api_view(['GET', 'PUT', 'DELETE'])
+<<<<<<< Updated upstream
 def Photobook_detail(request, co_id):
     try: 
         photobook = Photobook.objects.get(co_id=co_id) 
@@ -116,16 +155,55 @@ def Photobook_detail(request, co_id):
     # Deleting a singe record respective to the co_id given to the request
     elif request.method == 'DELETE': 
         photobook.delete() 
+=======
+def Photobook_detail(request, order_number):
+    # find photobook by order_number (order_number)
+
+    try:
+        photobook = Photobook.objects.get(order_number=order_number)
+    except Photobook.DoesNotExist:
+        return JsonResponse({'message': 'The photobook does not exist'}, status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        photobook_serializer = PhotobookSerializers(photobook)
+        return JsonResponse(photobook_serializer.data)
+
+    elif request.method == 'PUT':
+        photobook_data = JSONParser().parse(request)
+        photobook_serializer = PhotobookSerializers(
+            photobook, data=photobook_data)
+        if photobook_serializer.is_valid():
+            photobook_serializer.save()
+            return JsonResponse(photobook_serializer.data)
+        return JsonResponse(photobook_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        photobook.delete()
+>>>>>>> Stashed changes
         return JsonResponse({'message': 'Photobook was deleted successfully!'}, status=status.HTTP_204_NO_CONTENT)
 
     
-# Filter to find something specific like order status,version etc    
-@api_view(['GET'])
-def Photobook_version(request,version):
+# # Filter to find something specific like order status,version etc    
+# @api_view(['GET'])
+# def Photobook_list_published(request,version):
+#     photobooks = Photobook.objects.filter(version=version)
     
+<<<<<<< HEAD
     photobooks = Photobook.objects.filter(version=version)
     # GET all photobooks 
     if request.method == 'GET': 
         Photobook_Serializers = PhotobookSerializers(photobooks, many=True)
         return JsonResponse(Photobook_Serializers.data, safe=False)
+<<<<<<< Updated upstream
         
+=======
+
+
+>>>>>>> Stashed changes
+=======
+#     # GET all photobooks 
+#     if request.method == 'GET': 
+#         Photobook_Serializers = PhotobookSerializers(photobooks, many=True)
+#         return JsonResponse(Photobook_Serializers.data, safe=False)
+        
+>>>>>>> parent of 89c52e3 (Model Updated)
