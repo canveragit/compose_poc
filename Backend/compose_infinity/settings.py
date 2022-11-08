@@ -169,6 +169,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # because in this we need to store media files
 
 MEDIA_URL = '/media/'
+<<<<<<< Updated upstream
 MEDIA_ROOT = BASE_DIR/"media"
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
@@ -190,3 +191,8 @@ MEDIA_ROOT = BASE_DIR/"media"
 # ?: (security.W016) You have 'django.middleware.csrf.CsrfViewMiddleware' in your MIDDLEWARE, but you have not set CSRF_COOKIE_SECURE to True. 
 #   Using a secure-only CSRF cookie makes it more difficult for network traffic sniffers to steal the CSRF token.
 # ?: (security.W018) You should not have DEBUG set to True in deployment.
+=======
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# STATICFILES_DIRS=(os.path.join(BASE_DIR,'media'),)
+>>>>>>> Stashed changes
