@@ -11,6 +11,8 @@ app_name = "Photobook"
 urlpatterns = [
     path("",views.index),
     path("upload",views.OrderUpload,name="uploads"),
+    re_path(r'^view/(IC-?P<file_name>)$',views.ImageView),
+    # path("view",views.ImageView,name="imagesview"),
     re_path(r'^Photobook$', views.Photobook_list),
     re_path(r'^Photobook/(?P<co_id>[0-9]+)$',views.Photobook_detail),
 #    re_path(r'^Photobook/complete$',views.Photobook_list_published),
@@ -25,5 +27,5 @@ urlpatterns = [
 # (GET)    photobook/<version>              - To filter all the orders version vise 
 # (GET)    photobook?order_number=[IC-1234] - To filter order_number from Photobook
 
-# (POST)   				    - index.html
+# (POST)   				        - index.html
 # (POST)   upload			    - To upload images to ImageAlbum table in DB with the orderID and FileName

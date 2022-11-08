@@ -1,6 +1,8 @@
 from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser 
 from rest_framework import status
+from Photobook.models import ImageAlbum
+from Photobook.serializers import ImageAlbumSerializer
 from Photobook.models import Photobook
 from Photobook.serializers import PhotobookSerializers
 from rest_framework.decorators import api_view
@@ -21,9 +23,33 @@ def OrderUpload(request):
         myfile = request.FILES.getlist("uploadfiles")
         
         for f in myfile:
-            models.ImageAlbum(file_name = order_no,images=f).save()
-  
-        return HttpResponse("Successfully Uploaded - Trust in Mervin... Please I really hope this works HaHA:) ")
+            # models.ImageAlbum(file_name = order_no,images=f).save()
+            a = models.ImageAlbum(file_name = order_no,images=f)
+            
+        return HttpResponse("Successfully Uploaded ")
+
+@csrf_exempt    
+def ImageView(request,file_name):
+
+    if request.method == "GET" : 
+        images = ImageAlbum.objects.all()
+    
+        file_name = request.GET.get('file_name', None)
+        if file_name is not None:
+            images = images.filter(file_name_contains=file_name)
+
+        ImageAlbum_Serializer = ImageAlbumSerializer(images, many=True)
+        return JsonResponse(ImageAlbum_Serializer.data, safe=False, 
+        status=status.HTTP_201_CREATED)
+
+    # try: 
+    #     images = ImageAlbum.objects.get(file_name=file_name) 
+    # except Photobook.DoesNotExist: 
+    #     return JsonResponse({'message': 'The image file name does not exist'}, status=status.HTTP_404_NOT_FOUND) 
+    
+    # if request.method == 'GET': 
+    #     ImageAlbum_Serializer = ImageAlbumSerializer(images) 
+    #     return JsonResponse(ImageAlbum_Serializer.data, safe=False) 
 
 # (GET)    photobook                        - to get all the photobooks
 # (GET)    photobook/<co_id>                - to get a specific order
@@ -46,7 +72,8 @@ def Photobook_list(request):
             photobooks = photobooks.filter(order_number_contains=order_number)
         
         Photobook_Serializers = PhotobookSerializers(photobooks, many=True)
-        return JsonResponse(Photobook_Serializers.data, safe=False, status=status.HTTP_201_CREATED)
+        return JsonResponse(Photobook_Serializers.data, safe=False, 
+        status=status.HTTP_201_CREATED)
         # 'safe=False' for objects serialization
     
     # Inserting a new record   
