@@ -1,23 +1,16 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# dependencies
-/node_modules
-/.pnp
-.pnp.js
-
-# testing
-/coverage
-
-# production
-/build
-
-# misc
-.DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+Backend/media/order_IC-1233/landscape1.jpg
+Backend/media/order_IC-1233/landscape2.jpg
+Backend/media/order_IC-783487/canvera_logo.png
+Backend/media/order_IC-783487/landscape3.jpg
+Backend/media/order_Ic-4567/landscape2.jpg
+Backend/media/order_Ic-4567/landscape3.jpg
+Backend/db.sqlite3
+<<<<<<< HEAD
+Backend/media/order_2342/photobookfiles/canvera_logo.png
+Backend/media/order_2342/photobookfiles/landscape1.jpg
+Backend/media/order_2342/photobookfiles/landscape2.jpg
+Backend/media/order_2342/photobookfiles/landscape3.jpg
+Backend/media/order_Ic-4567/photobookfiles/canvera_logo.png
+Backend/media/order_Ic-4567/photobookfiles/landscape1.jpg
+=======
+>>>>>>> parent of 89c52e3 (Model Updated)

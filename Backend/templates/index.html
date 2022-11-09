@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+        <form action="{% url 'Photobook:uploads' %}" method="POST" enctype = "multipart/form-data">
+            {% comment %} <input type="text" name="order_number" placeholder="enter your order_number" >
+            <input type="json" name="page_details" placeholder="enter your page_details" >
+            <input type="text" name="version" placeholder="enter your veriosn" >
+            <input type="text" name="created_at" placeholder="enter your created_at" >
+            <input type="text" name="updated_at" placeholder="enter your updated_at" > {% endcomment %}
+            
+            <input type="text" name="order_number" placeholder="enter your order_number" >
+            <input type="file" multiple name="uploadfiles">
+            {% csrf_token %}
+            <button type="Submit">Submit</button>
+    </body>
+</html>
+
+
