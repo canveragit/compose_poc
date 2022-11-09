@@ -1,0 +1,9 @@
+decorator==5.1.1
+Django==4.1
+django-cors-headers==3.13.0
+djangorestframework==3.13.1
+Pillow==9.2.0
+psycopg2==2.9.3
+requests==2.27.1
+virtualenv==20.16.5
+
