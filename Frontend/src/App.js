@@ -1,86 +1,142 @@
 import './App.scss';
-import { Button, Container, Divider, Stack, TextField } from "@mui/material"
-import React, { useState } from "react";
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import AddPhotoAlternateOutlinedIcon from '@mui/icons-material/AddPhotoAlternateOutlined';
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-
-class ImageFrame extends React.Component {
-
-  state = { file: "" };
-  handleChange = (e) => {
-    this.setState({ file: URL.createObjectURL(e.target.files[0]) });
-  }
-
-  render() {
-    return (
-      <Row className="justify-content-md-center">
-        <Col md={12} sm={12}>
-          <div className='image-tools'>
-            <p>{this.props.index + 1}</p>
-            <AddPhotoAlternateOutlinedIcon className='icon' onClick={this.props.handleAdd} > </AddPhotoAlternateOutlinedIcon>
-            <DeleteOutlineOutlinedIcon className='icon' onClick={() => this.props.handleRemove(this.props.index)}></DeleteOutlineOutlinedIcon>
-            <KeyboardArrowUpIcon className='icon'></KeyboardArrowUpIcon>
-            <KeyboardArrowDownIcon className='icon'></KeyboardArrowDownIcon>
-          </div>
-          <div className="image-container">
-            <div className='image-preview' style={{ backgroundImage: "url(" + this.state.file + ")" }}></div>
-          </div>
-          <div>
-            <label className='btn-grey' onChange={this.handleChange} htmlFor={"formId-" + this.props.index}>
-              <input name="" type="file" id={"formId-" + this.props.index} hidden />
-              Add Image
-            </label>
-          </div>
-        </Col>
-      </Row>
-    )
-  }
-}
+import { Container, Stack} from "@mui/material"
+import React, { useState, useRef,useEffect} from "react";
+import ImageFrame  from './components/ImageFrame';
+import Button from 'react-bootstrap/Button';
 
 
 export default function App() {
 
   const [page, setPage] = useState([
     {
-      pageNumber: ""
+      orderno: 1,
+      "type": "",
+      "source": ""
     }
   ])
+  const [pages, setPages] = useState([]);
+  const [currentPage, setCurrentpage] = useState(1);
+  const [maxPageLength, setMaxLength] = useState(1);
+  const ref = useRef(null);
+  const url = 'http://10.30.0.21:8000/';
+  
+  // const [Image,setImage] = useState([]);
+  // const {getRootProps, getInputProps, isDragActive} = useDropzone({
+  //   accept :"image/*",
+  //   onDrop: (acceptedFile) =>{
+  //     setImage(
+  //       acceptedFile.map((upFile)=> Object.assign(upFile,{
+  //         preview: URL.createObjectURL(upFile)
+  //       }))
+  //     )
+  //   }
+  // })
+ 
 
   // adds new input
-  const handleAdd = () => {
+  const handleAdd = (index) => {
     setPage([
       ...page,
       {
-        pageNumber: ""
+        orderno: page.length + 1, 
       }
     ])
+    
+  
+    // setMaxLength(maxPageLength + 1);
+    // setMaxLength(page.length + 1);
+    setCurrentpage(index);
+    console.log(page);
+    
   }
   // removes input
   const handleRemove = (index) => {
-    if (page.length !== 1) {
-      setPage(page.splice(index, 1));
+    if (page.length > 1) {
+      setPage(page => page.filter((p, i) => i !== index));
+      //  setPage(page.splice(index,1));
+      console.log(page);
+      
     }
+    
+  }
+  
+  const setPageContent = (source,type,index) => {
+    page[index].source = source.name;
+    page[index].type = type;
+    setPage(page)
+    const newPages = pages.slice();
+    newPages.push(source);
+    setPages(newPages);
+    console.log("New Pages", newPages);
+    console.log('Page Index',page[index]);
+  }
+
+  const saveChanges = () =>{
+    
+    const current = new Date();
+  const date = `${current.getFullYear()}-${current.getMonth()+1}-${current.getDate()}`;
+    //validation
+
+    // const payloadTest = {"co_id": 1, "order_number": "Ic-4567", "page_details": {"order_id": "IC-56766"}, "version": "v2", "created_at": "2022-10-10", "updated_at": "2022-10-10"}
+
+    const payload = {
+      "co_id": 1,
+      "order_number": "IC-12345",
+      "page_details": {
+          pages: page,
+          "order_id": "IC-12345",
+          "page_count": page.length
+      },
+      "version": "v1",
+      "created_at": date ,
+      "updated_at": date 
+  }
+  console.log('Page',page);
+  fetch(url + 'Photobook', { 
+      method: 'POST', 
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(payload) 
+
+    }).then(res=> console.log(res))
+    .catch((error) => {
+      console.error(error);
+    });
+
+
+   
+    let body = new FormData();
+ 
+    body.append("file_name", "IC-1234");
+    body.append("images", pages);
+  
+  fetch(url + 'upload',{ 
+    method: 'POST',
+    body :body
+  }).then(res=> console.log(res))
+  .catch((error) => {
+    console.error(error);
+  });
+  console.log('File Content',pages);
+  console.log(payload);
+  console.log ('Date',date);
   }
 
   return (
-    <>
       <Container className="App">
         <Stack spacing={2}>
           {page.map((item, index) => (
             <ImageFrame
               handleAdd={handleAdd}
               handleRemove={handleRemove}
-              page={page}
+              page={item}
               index={index}
+              setPageContent = {setPageContent}
             />
           ))}
         </Stack>
+        <Button variant="primary" className='save-btn' onClick={saveChanges}>Save Album</Button>
 
       </Container>
-    </>
+    
   )
 }

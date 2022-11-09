@@ -1,4 +1,3 @@
-
 from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser 
 from rest_framework import status
@@ -53,11 +52,9 @@ def OrderUpload(self,request,*args,**kwargs):
 #     if request.method == "POST" :
 #         order_no = request.POST.get("order_number")
 #         myfile = request.FILES.getlist("uploadfiles")
-        
 #         for f in myfile:
-#             models.ImageAlbum(file_name = order_no,images=f).save()
-#             # a = models.ImageAlbum(file_name = order_no,images=f)
-            
+#             # models.ImageAlbum(file_name = order_no,images=f).save()
+#             a = models.ImageAlbum(file_name = order_no,images=f)
 #         return HttpResponse("Successfully Uploaded ")
 
 @csrf_exempt    
@@ -104,7 +101,8 @@ def Photobook_list(request):
             photobooks = photobooks.filter(order_number_contains=order_number)
         
         Photobook_Serializers = PhotobookSerializers(photobooks, many=True)
-        return JsonResponse(Photobook_Serializers.data, safe=False, status=status.HTTP_201_CREATED)
+        return JsonResponse(Photobook_Serializers.data, safe=False, 
+        status=status.HTTP_201_CREATED)
         # 'safe=False' for objects serialization
     
     # Inserting a new record   
@@ -121,8 +119,6 @@ def Photobook_list(request):
     elif request.method == 'DELETE':
         count = Photobook.objects.all().delete()
         return JsonResponse({'message': '{} Photobook were deleted successfully!'.format(count[0])}, status=status.HTTP_204_NO_CONTENT)
-
- 
  
 @api_view(['GET', 'PUT', 'DELETE'])
 def Photobook_detail(request, co_id):
@@ -151,12 +147,13 @@ def Photobook_detail(request, co_id):
         return JsonResponse({'message': 'Photobook was deleted successfully!'}, status=status.HTTP_204_NO_CONTENT)
 
     
-# # Filter to find something specific like order status,version etc    
-# @api_view(['GET'])
-# def Photobook_list_published(request,version):
-#     photobooks = Photobook.objects.filter(version=version)
+# Filter to find something specific like order status,version etc    
+@api_view(['GET'])
+def Photobook_version(request,version):
     
-#     # GET all photobooks 
-#     if request.method == 'GET': 
-#         Photobook_Serializers = PhotobookSerializers(photobooks, many=True)
-#         return JsonResponse(Photobook_Serializers.data, safe=False)
+    photobooks = Photobook.objects.filter(version=version)
+    # GET all photobooks 
+    if request.method == 'GET': 
+        Photobook_Serializers = PhotobookSerializers(photobooks, many=True)
+        return JsonResponse(Photobook_Serializers.data, safe=False)
+        

@@ -2,7 +2,7 @@ from django.db import models
 
 def user_directory_path(self, file_name):
     # file will be uploaded to MEDIA_ROOT / user_<id>/<filename>
-    return 'order_{0}/photobookfiles/{1}'.format(self,file_name)
+    return 'order_{0}/{1}'.format(self,file_name)
 
 # Create your models here.
 class Photobook(models.Model):
@@ -31,4 +31,3 @@ class ImageAlbum(models.Model):
     
 #     def default(self):
 #         return self.images.filter(default=True).first()
-    
