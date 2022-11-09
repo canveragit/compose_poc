@@ -1,47 +1,74 @@
 body {
     background-color: #f2f0ff !important;
+    scroll-behavior: smooth;
 }
 
 .App {
     text-align: center;
-    .image-tools {
-        // padding-right: 15px;
-        .icon {
-            float: right;
-            margin-left: 10px;
-        }
-    }
-    .image-container {
-        background-color: #ffffff;
-        height: 500px;
-        width: 100%;
+    margin-top: 50px;
+    .image-frame {
         margin: 30px auto;
-        position: relative;
-        overflow: hidden;
-        .image-preview {
-            height: 500px;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: contain;
+        .image-tools {
+            // padding-right: 15px;
+            .icon {
+                float: right;
+                margin-left: 10px;
+            }
+            .buttonTrue {
+                color: blue;
+                float: right;
+            }
+            .page-number {
+                display: inline;
+                float: left;
+                font-size: 14px;
+                font-weight: 500;
+            }
         }
-        img {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            margin-top: -218px;
-            margin-left: -218px;
-            object-fit: contain;
+        .image-container {
+            background-color: #ffffff;
+            height: 500px;
+            width: 100%;
+            margin: 30px auto;
+            position: relative;
+            overflow: hidden;
+            .drop-zone {
+                position: absolute;
+                top: 50%;
+                right: 0;
+                left: 0;
+            }
+            .image-preview {
+                height: 500px;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: contain;
+            }
+            img {
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                margin-top: -218px;
+                margin-left: -218px;
+                object-fit: contain;
+            }
+        }
+        .btn-grey {
+            background-color: #e3dfd3;
+            color: #000000;
+            border-radius: 0;
+            border: 0;
+            font-size: 15px;
+            font-weight: 500;
+            padding: 10px 30px;
+            cursor: pointer;
         }
     }
-    .btn-grey {
-        background-color: #e3dfd3;
-        color: #000000;
-        border-radius: 0;
-        border: 0;
-        font-size: 15px;
-        font-weight: 500;
-        padding: 10px 30px;
-        cursor: pointer;
+    .save-btn {
+        position: fixed;
+        top: 10px;
+        right: 0;
+        margin-right: 50px;
     }
 }
 
