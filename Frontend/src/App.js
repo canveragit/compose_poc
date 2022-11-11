@@ -3,6 +3,7 @@ import { Container, Stack} from "@mui/material"
 import React, { useState, useRef,useEffect} from "react";
 import ImageFrame  from './components/ImageFrame';
 import Button from 'react-bootstrap/Button';
+import axios from 'axios';
 
 
 export default function App() {
@@ -120,6 +121,22 @@ export default function App() {
   console.log(payload);
   console.log ('Date',date);
   }
+  const handleSubmit = async(event) => {
+    event.preventDefault()
+    const formData = new FormData();
+    formData.append("file_name", "IC-1234");
+    formData.append("images", pages);
+    try {
+      const response = await axios({
+        method: "post",
+        url: url + 'upload',
+        data: formData,
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+    } catch(error) {
+      console.log(error)
+    }
+  }
 
   return (
       <Container className="App">
@@ -134,7 +151,7 @@ export default function App() {
             />
           ))}
         </Stack>
-        <Button variant="primary" className='save-btn' onClick={saveChanges}>Save Album</Button>
+        <Button variant="primary" className='save-btn' onClick={handleSubmit}>Save Album</Button>
 
       </Container>
     
