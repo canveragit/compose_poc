@@ -10,6 +10,7 @@ import FlipToBackIcon from '@mui/icons-material/FlipToBack';
 import Dropzone from 'react-dropzone';
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from '@mui/icons-material/Delete';
+import axios from 'axios';
 
 
 
@@ -41,18 +42,36 @@ class ImageFrame extends React.Component {
    
     state = { file: ""};
     handleChange = (e) => {
+      const url = 'http://10.30.0.21:8000/';
       // if(this.props.index === 0){
       //   this.state.type ="front-cover";
       // }
       // else{
       //   this.state.type ="";
       // }
-    
+      // CHANGES MADE FOR UPLOAD
+      const formData = new FormData();
+      // formData.append("file_name", "IC-1234");
+      formData.append("images", e.target.files[0]);
+
+        axios
+      .post(url + 'upload', formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        } ,
+      })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => console.log(err));
+
       this.setState({ file: URL.createObjectURL(e.target.files[0])});
+      // this.setState(e.target.files[0]);
       console.log("File data",e.target.files[0]);
       
       
       this.props.setPageContent(e.target.files[0],this.state.type,this.props.index);
+      
     }
     // onDrop = (acceptedFiles) => {
     //   // console.log(acceptedFiles);   
@@ -82,9 +101,9 @@ class ImageFrame extends React.Component {
               {/* <FlipToBackIcon className='icon'></FlipToBackIcon> */}
               
               {/* <FlipToFrontIcon className={this.state.button ? "buttonTrue": "icon"} onClick={this.handleClick}></FlipToFrontIcon> */}
-              <IconButton className= "icon">
+              {/* <IconButton className= "icon">
         <FlipToFrontIcon   onClick={this.handleClick} />
-      </IconButton>
+      </IconButton> */}
               
             </div>
             <div className="image-container"  ref={this.scollToRef}>
