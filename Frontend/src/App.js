@@ -104,8 +104,8 @@ export default function App() {
   
   const handleSubmit = async(event) => { 
     const formData = new FormData();
-      // formData.append("file_name", "IC-1234");
-      formData.append("images", pages[0]);
+       formData.append("file_name", "IC-1234");
+      // formData.append("images", pages[0]);
       
       // Changes are done here by Anuj
       pages.map((value, index)=> {
