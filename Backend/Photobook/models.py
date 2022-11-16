@@ -15,19 +15,8 @@ class Photobook(models.Model):
 
 class ImageAlbum(models.Model):
     # co_id = models.ForeignKey(Photobook, related_name='order_no', on_delete=models.CASCADE)
-    file_name = models. CharField(max_length=255)
+    file_name = models.CharField(max_length=255)
     images = models.FileField(upload_to= user_directory_path)
     
     def __str__(self):
         return self.file_name
-
-# class ImageAlbum(models.Model):
-#     album = models.ForeignKey(Photobook, related_name='order_sl', on_delete=models.CASCADE)
-#     images = models.ImageField(upload_to= user_directory_path)
-#     # image = models.ImageField(upload_to='images/')
-    
-#     def save(self, *args, **kwargs):
-#        return super(ImageAlbum, self).save(*args, **kwargs)
-    
-#     def default(self):
-#         return self.images.filter(default=True).first()

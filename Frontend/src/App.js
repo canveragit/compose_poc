@@ -106,6 +106,12 @@ export default function App() {
     const formData = new FormData();
       // formData.append("file_name", "IC-1234");
       formData.append("images", pages[0]);
+      
+      // Changes are done here by Anuj
+      pages.map((value, index)=> {
+        formData.append('images',value)
+      } )
+    
       console.log("uploaded images------>", pages[0]);
 
       axios.post(url + 'upload', formData, {

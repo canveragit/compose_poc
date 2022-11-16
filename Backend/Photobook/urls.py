@@ -7,7 +7,7 @@ from django.conf.urls.static import static
 app_name = "Photobook"
 
 urlpatterns = [
-    path("",views.index),
+    # path("",views.index), # Not needed anymore
     path("upload",views.OrderUpload,name="uploads"),
     re_path(r'^Photobook$', views.Photobook_list),
     re_path(r'^Photobook/(?P<co_id>[0-9]+)$',views.Photobook_detail),

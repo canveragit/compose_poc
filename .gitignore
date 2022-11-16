@@ -4,3 +4,5 @@ Frontend/node_modules/
 .vscode/
 Backend/.vscode
 Backend/Photobook/__pycache__
+node_modules
+/Frontend/build
