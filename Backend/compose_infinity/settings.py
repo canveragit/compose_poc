@@ -89,36 +89,17 @@ WSGI_APPLICATION = 'compose_infinity.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+# Server Database on 10.30.0.21
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+        'HOST': '10.30.0.21',
+        'PORT': '5432'
     }
 }
-
-# # Local Database
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'db',
-#         'USER': 'postgres',
-#         'PASSWORD': 'postgres',
-#         'HOST': 'localhost',
-#         'PORT': '5432'
-#     }
-# }
-
-# # Server Database on 10.30.0.21
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'postgres',
-#         'USER': 'postgres',
-#         'PASSWORD': 'postgres',
-#         'HOST': '10.30.0.21',
-#         'PORT': '5432'
-#     }
-# }
 
 
 # Password validation
@@ -169,7 +150,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # because in this we need to store media files
 
 MEDIA_URL = '/media/'
-<<<<<<< Updated upstream
 MEDIA_ROOT = BASE_DIR/"media"
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
@@ -191,8 +171,3 @@ MEDIA_ROOT = BASE_DIR/"media"
 # ?: (security.W016) You have 'django.middleware.csrf.CsrfViewMiddleware' in your MIDDLEWARE, but you have not set CSRF_COOKIE_SECURE to True. 
 #   Using a secure-only CSRF cookie makes it more difficult for network traffic sniffers to steal the CSRF token.
 # ?: (security.W018) You should not have DEBUG set to True in deployment.
-=======
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-# STATICFILES_DIRS=(os.path.join(BASE_DIR,'media'),)
->>>>>>> Stashed changes

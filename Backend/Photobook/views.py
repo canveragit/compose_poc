@@ -1,84 +1,26 @@
+from django.http import HttpResponse
 from django.http.response import JsonResponse
-from rest_framework.parsers import JSONParser 
-from rest_framework import status
-from Photobook.models import ImageAlbum
-from Photobook.serializers import ImageAlbumSerializer
+from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
+from Photobook import models
 from Photobook.models import Photobook
 from Photobook.serializers import PhotobookSerializers
+from rest_framework import status
 from rest_framework.decorators import api_view
-from django.views.decorators.csrf import csrf_exempt
-from django.http import HttpResponse
-from django.shortcuts import render
-from Photobook import models
-
-from django.core.files.storage import FileSystemStorage
-from django.core.files.storage import default_storage
+from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
 
+# Saving an image with its filename as the ordername
 @csrf_exempt
-def index(request):
-    return render(request,"index.html")
-
-@csrf_exempt
-def OrderUpload(self,request,*args,**kwargs):
+def OrderUpload(request):
     if request.method == "POST" :
-        file_s=ImageAlbumSerializer(data=request.data)
-        print("-----------")
-        print(request)
-        print("-----------")
-        # print(order_no)
-        print(file_s)
-        print(type(file_s))
-        print("-----------")
-
-        if file_s.is_valid():
-            file_s.save()
-            return Response(file_s.data,status=status.HTTP_201_CREATED)
-
-        else:
-            print('error',file_s.errors)
-            return Response(file_s.errors,status=status.HTTP_400_BAD_REQUEST)
-        
-        # filename = str(myfile)
-        # with default_storage.open(filename + '/photobookfiles/', 'wb+') as destination:
-        # # with FileSystemStorage.open(base_url = "filename + '/photobookfiles/' ", file_permissions_mode ='wb+') as destination:
-        #     for file in myfile.chunks():
-        #         destination.write(file)
-        # return response("ok", status=status.HTTP_200_OK)
-
-
-# @csrf_exempt
-# def OrderUpload(request):
-#     if request.method == "POST" :
-#         order_no = request.POST.get("order_number")
-#         myfile = request.FILES.getlist("uploadfiles")
-#         for f in myfile:
-#             # models.ImageAlbum(file_name = order_no,images=f).save()
-#             a = models.ImageAlbum(file_name = order_no,images=f)
-#         return HttpResponse("Successfully Uploaded ")
-
-@csrf_exempt    
-def ImageView(request,file_name):
-
-    if request.method == "GET" : 
-        images = ImageAlbum.objects.all()
-    
-        file_name = request.GET.get('file_name', None)
-        if file_name is not None:
-            images = images.filter(file_name_contains=file_name)
-
-        ImageAlbum_Serializer = ImageAlbumSerializer(images, many=True)
-        return JsonResponse(ImageAlbum_Serializer.data, safe=False, 
-        status=status.HTTP_201_CREATED)
-
-    # try: 
-    #     images = ImageAlbum.objects.get(file_name=file_name) 
-    # except Photobook.DoesNotExist: 
-    #     return JsonResponse({'message': 'The image file name does not exist'}, status=status.HTTP_404_NOT_FOUND) 
-    
-    # if request.method == 'GET': 
-    #     ImageAlbum_Serializer = ImageAlbumSerializer(images) 
-    #     return JsonResponse(ImageAlbum_Serializer.data, safe=False) 
+        file_name = request.POST.get("file_name")
+        print(file_name)
+        myfile = request.FILES.getlist("images")
+        print(myfile)
+        for f in myfile:
+            models.ImageAlbum(file_name = file_name,images=f).save()
+        return HttpResponse("Successfully Uploaded ")
 
 # (GET)    photobook                        - to get all the photobooks
 # (GET)    photobook/<co_id>                - to get a specific order
