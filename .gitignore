@@ -5,12 +5,6 @@ Backend/media/order_IC-783487/landscape3.jpg
 Backend/media/order_Ic-4567/landscape2.jpg
 Backend/media/order_Ic-4567/landscape3.jpg
 Backend/db.sqlite3
-<<<<<<< HEAD
-Backend/media/order_2342/photobookfiles/canvera_logo.png
-Backend/media/order_2342/photobookfiles/landscape1.jpg
-Backend/media/order_2342/photobookfiles/landscape2.jpg
-Backend/media/order_2342/photobookfiles/landscape3.jpg
-Backend/media/order_Ic-4567/photobookfiles/canvera_logo.png
-Backend/media/order_Ic-4567/photobookfiles/landscape1.jpg
-=======
->>>>>>> parent of 89c52e3 (Model Updated)
+node_modules
+/Frontend/build
+
