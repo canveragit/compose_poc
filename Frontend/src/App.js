@@ -74,13 +74,9 @@ export default function App() {
 
   const saveChanges = () =>{
     
-    const current = new Date();
+  const current = new Date();
   const date = `${current.getFullYear()}-${current.getMonth()+1}-${current.getDate()}`;
-    //validation
-
-    // const payloadTest = {"co_id": 1, "order_number": "Ic-4567", "page_details": {"order_id": "IC-56766"}, "version": "v2", "created_at": "2022-10-10", "updated_at": "2022-10-10"}
-
-    const payload = {
+  const payload = {
       "co_id": 1,
       "order_number": "IC-12345",
       "page_details": {
@@ -102,40 +98,39 @@ export default function App() {
     .catch((error) => {
       console.error(error);
     });
-
-
-   
-    let body = new FormData();
- 
-    body.append("file_name", "IC-1234");
-    body.append("images", pages);
-  
-  fetch(url + 'upload',{ 
-    method: 'POST',
-    body :body
-  }).then(res=> console.log(res))
-  .catch((error) => {
-    console.error(error);
-  });
-  console.log('File Content',pages);
   console.log(payload);
-  console.log ('Date',date);
   }
-  const handleSubmit = async(event) => {
-    event.preventDefault()
+
+  
+  const handleSubmit = async(event) => { 
     const formData = new FormData();
-    formData.append("file_name", "IC-1234");
-    formData.append("images", pages);
-    try {
-      const response = await axios({
-        method: "post",
-        url: url + 'upload',
-        data: formData,
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-    } catch(error) {
-      console.log(error)
-    }
+      // formData.append("file_name", "IC-1234");
+      formData.append("images", pages[0]);
+      console.log("uploaded images------>", pages[0]);
+
+      axios.post(url + 'upload', formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        } ,
+      })
+      .then((res) => {
+        console.log(pages);
+      })
+      .catch((err) => console.log(err));
+
+    // event.preventDefault()
+    // const formData = new FormData();
+    // formData.append("images", pages);
+    // try {
+    //   const response = await axios({
+    //     method: "post",
+    //     url: url + 'upload',
+    //     data: formData,
+    //     headers: { "Content-Type": "multipart/form-data" },
+    //   });
+    // } catch(error) {
+    //   console.log(error)
+    // }
   }
 
   return (
