@@ -12,4 +12,26 @@ class ImageAlbumSerializer(serializers.ModelSerializer):
         model=ImageAlbum
         fields = ('file_name','images')
 
+# class PhotobookSerializers(serializers.Serializer):
+    # co_id = serializers.IntegerField()
+    # order_number = serializers.CharField()
+    # page_details = serializers.JSONField()
+    # version = serializers.CharField()
+    # created_at = serializers.DateField
+    # updated_at = serializers.DateField() 
+
+    # def create(self, validated_data):
+    #     Photobook_obj = Photobook(**validated_data)
+    #     Photobook_obj.save()
+    #     return Photobook_obj
+
+    # def update(self, instance, validated_data):
+    #     instance.name = validated_data["co_id"]
+    #     instance.save()
+    #     return instance
+    
+# class ImageAlbumSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model=ImageAlbum
+#         field = ('order_number','images')
     

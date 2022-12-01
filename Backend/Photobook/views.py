@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from django.http.response import JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
+from Photobook.models import ImageAlbum
 from Photobook import models
 from Photobook.models import Photobook
 from Photobook.serializers import PhotobookSerializers
@@ -10,17 +11,60 @@ from rest_framework.decorators import api_view
 from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
 
+# Not needed anymore
+@csrf_exempt
+def index(request):
+    return render(request,"index.html")
+        
 # Saving an image with its filename as the ordername
 @csrf_exempt
 def OrderUpload(request):
     if request.method == "POST" :
-        file_name = request.POST.get("file_name")
-        print(file_name)
         myfile = request.FILES.getlist("images")
+        count = len(myfile)
         print(myfile)
-        for f in myfile:
-            models.ImageAlbum(file_name = file_name,images=f).save()
+        for file in myfile:
+            models.ImageAlbum(images=file).save()
+            # ImageAlbum.objects.create(file_name = file_name,images=f)
         return HttpResponse("Successfully Uploaded ")
+
+
+# # Saving an image with its filename as the ordername
+# @csrf_exempt
+# def OrderUpload(request):
+#     if request.method == "POST" :
+#         file_name = request.POST.get("file_name")
+#         print(file_name)
+#         myfile = request.FILES.getlist("images")
+#         print(myfile)
+#         for f in myfile:
+#             models.ImageAlbum(file_name = file_name,images=f).save()
+#         return HttpResponse("Successfully Uploaded ")
+
+
+# # View all Images 
+# @csrf_exempt    
+# def ImageView(request,file_name):
+
+#     if request.method == "GET" : 
+#         images = ImageAlbum.objects.all()
+    
+#         file_name = request.GET.get('file_name', None)
+#         if file_name is not None:
+#             images = images.filter(file_name_contains=file_name)
+
+#         ImageAlbum_Serializer = ImageAlbumSerializer(images, many=True)
+#         return JsonResponse(ImageAlbum_Serializer.data, safe=False, 
+#         status=status.HTTP_201_CREATED)
+
+#     try: 
+#         images = ImageAlbum.objects.get(file_name=file_name) 
+#     except Photobook.DoesNotExist: 
+#         return JsonResponse({'message': 'The image file name does not exist'}, status=status.HTTP_404_NOT_FOUND) 
+    
+#     if request.method == 'GET': 
+#         ImageAlbum_Serializer = ImageAlbumSerializer(images) 
+#         return JsonResponse(ImageAlbum_Serializer.data, safe=False) 
 
 # (GET)    photobook                        - to get all the photobooks
 # (GET)    photobook/<co_id>                - to get a specific order

@@ -25,6 +25,7 @@ SECRET_KEY = 'django-insecure-w4ej&43(#0)hron5wy5h@talw4xmicp-t+fz@jee&zwt@46vl)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# ALLOWED_HOSTS = ['10.30.0.21']
 ALLOWED_HOSTS = []
 
 APPEND_SLASH = False
@@ -89,17 +90,36 @@ WSGI_APPLICATION = 'compose_infinity.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-# Server Database on 10.30.0.21
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': '10.30.0.21',
-        'PORT': '5432'
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# # Local Database
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'db',
+#         'USER': 'postgres',
+#         'PASSWORD': 'postgres',
+#         'HOST': 'localhost',
+#         'PORT': '5432'
+#     }
+# }
+
+# # Server Database on 10.30.0.21
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'postgres',
+#         'USER': 'postgres',
+#         'PASSWORD': 'postgres',
+#         'HOST': '10.30.0.21',
+#         'PORT': '5432'
+#     }
+# }
 
 
 # Password validation
