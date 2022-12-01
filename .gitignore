@@ -6,3 +6,5 @@ Backend/.vscode
 Backend/Photobook/__pycache__
 node_modules
 /Frontend/build
+Backend/compose_infinity/__pycache__/*
+Backend/Photobook/migrations/*
